@@ -1,0 +1,19 @@
+{% raw %}{% extends "layouts/base.html" %}
+
+{% load bootstrap %}
+
+{% block content %}
+    <div class="page-header">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'impact_data' %}">Impact Data</a></li>
+            <li><a href="{% url '{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index' %}">Success Stories</a></li>
+            <li class="active">{% block title %}Delete "{{ object.title }}"{% endblock %}</li>
+        </ol>
+    </div>
+
+    <form action="." method="post">{% csrf_token %}
+    <p>Are you sure you want to delete the {{ cookiecutter.model_name|lower }}, "{{ object.title }}"?</p>
+    <button type="submit" class="btn btn-danger">Yes</button>
+    <a class="btn btn-default" href="{% url '{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_edit' object.pk %}">No</a>
+    </form>
+{% endblock %}{% endraw %}
