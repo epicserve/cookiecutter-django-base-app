@@ -1,7 +1,7 @@
 Cookiecutter Django Basic App
 =============================
 
-A cookiecutter template to create a Django app within an existing Django project, with boilerplate including:
+A cookiecutter template to create a Django app within an existing Django project, with a boilerplate that includes:
     * A barebones Django model.
     * Django CRUD views and templates using Django's Class Based Views.
     * Django form templates that output `Bootstrap <http://getbootstrap.com/>`_ HTML using `django-bootstrap-form <https://github.com/tzangms/django-bootstrap-form>`_.
@@ -11,7 +11,7 @@ A cookiecutter template to create a Django app within an existing Django project
 Quickstart
 ==========
 
-1. Install cookiecutter, and apps listed in requirements.txt for our generated app.  Install them all with:
+1. Install `cookiecutter <https://github.com/audreyr/cookiecutter>`_, and the apps listed in requirements.txt.  Install them all with:
 
 .. code-block:: console
 
