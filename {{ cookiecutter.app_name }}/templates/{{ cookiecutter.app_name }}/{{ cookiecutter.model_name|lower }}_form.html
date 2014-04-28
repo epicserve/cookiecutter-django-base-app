@@ -5,9 +5,8 @@
 {% block content %}
     <div class="page-header">
         <ol class="breadcrumb">
-            <li><a href="{% url 'impact_data' %}">Impact Data</a></li>
-            <li><a href="{% url '{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index' %}">Success Stories</a></li>
-            <li class="active">{% block title %}{% if object.pk %}Update{% else %}Add{% endif %} Success Story{% endblock %}</li>
+            <li><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index{% raw %}' %}">{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</a></li>
+            <li class="active">{% block title %}{% if object.pk %}Update{% else %}Add{% endif %} {% endraw %}{{ cookiecutter.app_name|title }}{% raw %}{% endblock %}</li>
         </ol>
     </div>
 
@@ -16,7 +15,7 @@
         {{ form|bootstrap }}
         <button type="submit" class="btn btn-primary">{% if object.pk %}Update{% else %}Add{% endif %}</button>
         {% if object.pk %}
-        <a href="{% url '{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|low_delete' object.pk %}" class="btn btn-danger">Delete</a>
+        <a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_delete{% raw %}' object.pk %}" class="btn btn-danger">Delete</a>
         {% endif %}
     </form>
 {% endblock %}{% endraw %}

@@ -3,10 +3,9 @@
 
 {% block content %}
     <div class="page-header">
-        <div class="pull-right"><a class="btn btn-primary" href="{% url '{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_add' %}"><span class="glyphicon glyphicon-plus"></span> Add</a></div>
+        <div class="pull-right"><a class="btn btn-primary" href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_add{% raw %}' %}"><span class="glyphicon glyphicon-plus"></span> Add</a></div>
         <ol class="breadcrumb">
-            <li><a href="{% url 'impact_data' %}">Impact Data</a></li>
-            <li class="active">{% block title %}Success Stories{% endblock %}</li>
+            <li class="active">{% block title %}{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}{% endblock %}</li>
         </ol>
     </div>
 
@@ -18,12 +17,12 @@
         </tr>
         {% for object in object_list %}
             <tr>
-                <td><a href="{% url '{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_detail' object.id %}">{{ object.title }}</a></td>
+                <td><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_detail{% raw %}' object.id %}">{{ object.title }}</a></td>
                 <td>{{ object.modified|date:"m/d/Y" }}</td>
             </tr>
         {% empty %}
             <tr>
-                <td colspan="3">You don't currently have any success {{ cookiecutter.app_name }}. Click the add button above to <strong>add</strong> a success {{ cookiecutter.model_name|lower }}.</td>
+                <td colspan="3">You don't currently have any {% endraw %}{{ cookiecutter.app_name }}{% raw %}. Click the add button above to <strong>add</strong> a {% endraw %}{{ cookiecutter.model_name|lower }}{% raw %}.</td>
             </tr>
         {% endfor %}
     </table>
