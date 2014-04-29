@@ -13,9 +13,9 @@
     <form action="." method="post">
         {% csrf_token %}
         {{ form|bootstrap }}
-        <button type="submit" class="btn btn-primary">{% if object.pk %}Update{% else %}Add{% endif %}</button>
+        <button type="submit" class="btn btn-primary">{% if object.pk %}<span class="glyphicon glyphicon-edit"></span> Update{% else %}<span class="glyphicon glyphicon-plus"></span> Add{% endif %}</button>
         {% if object.pk %}
-        <a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_delete{% raw %}' object.pk %}" class="btn btn-danger">Delete</a>
+        <a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_delete{% raw %}' object.pk %}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
         {% endif %}
     </form>
 {% endblock %}{% endraw %}
