@@ -2,12 +2,16 @@
 
 {% load bootstrap %}
 
+{% block breadcrumb %}
+<ol class="breadcrumb main">
+    <li><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index{% raw %}' %}">{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</a></li>
+    <li class="active">{% block title %}{% if object.pk %}Update{% else %}Add{% endif %} {% endraw %}{{ cookiecutter.app_name|title }}{% raw %}{% endblock %}</li>
+</ol>
+{% endblock breadcrumb %}
+
 {% block content %}
     <div class="page-header">
-        <ol class="breadcrumb">
-            <li><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index{% raw %}' %}">{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</a></li>
-            <li class="active">{% block title %}{% if object.pk %}Update{% else %}Add{% endif %} {% endraw %}{{ cookiecutter.app_name|title }}{% raw %}{% endblock %}</li>
-        </ol>
+        <h2>{% if object.pk %}Update{% else %}Add{% endif %} {% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</h2>
     </div>
 
     <form action="." method="post">
