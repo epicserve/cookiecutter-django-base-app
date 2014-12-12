@@ -3,10 +3,12 @@
 {% load bootstrap %}
 
 {% block breadcrumb %}
-<ol class="breadcrumb main">
-    <li><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index{% raw %}' %}">{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</a></li>
-    <li class="active">{% block title %}{% if object.pk %}Update{% else %}Add{% endif %} {% endraw %}{{ cookiecutter.app_name|title }}{% raw %}{% endblock %}</li>
-</ol>
+<div class="container">
+    <ol class="breadcrumb main">
+        <li><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_list{% raw %}' %}">{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</a></li>
+        <li class="active">{% block title %}{% if object.pk %}Update{% else %}Add{% endif %} {% endraw %}{{ cookiecutter.app_name|title }}{% raw %}{% endblock %}</li>
+    </ol>
+</div>
 {% endblock breadcrumb %}
 
 {% block content %}

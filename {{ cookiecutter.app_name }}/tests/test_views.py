@@ -21,122 +21,118 @@ class BaseViews(TestCase):
         self.assertEqual(response.url, redirect_url)
 
 
-class {{ cookiecutter.model_name }}IndexViews(BaseViews):
+class {{ cookiecutter.model_name }}ListView(BaseViews):
 
-    def test_index_login_required(self):
-        resp = c.get(reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index'))
-        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index')))
+    def test_list_login_required(self):
+        resp = c.get(reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_list'))
+        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_list')))
 
-    def test_index(self):
+    def test_list(self):
         c.login(username='normal_user', password='secret')
-        resp = c.get(reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index'))
+        resp = c.get(reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_list'))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual([obj.pk for obj in resp.context['object_list']], [])
 
 
-class {{ cookiecutter.model_name }}AddViews(BaseViews):
+class {{ cookiecutter.model_name }}CreateView(BaseViews):
 
     def setUp(self):
-        super({{ cookiecutter.model_name }}AddViews, self).setUp()
+        self.url = reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_create')
+        super({{ cookiecutter.model_name }}CreateView, self).setUp()
 
-    def test_add_login_required(self):
-        resp = c.get(reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_add'))
-        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_add')))
+    def test_create_login_required(self):
+        resp = c.get(self.url)
+        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_create')))
 
-    def test_add(self):
+    def test_create(self):
         c.login(username='normal_user', password='secret')
-        url = reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_add')
-        resp = c.get(url)
+        resp = c.get(self.url)
         self.assertEqual(resp.status_code, 200)
 
-        resp = c.post(url, {'title': 'Title 1 (added)', 'description': 'Description 1 (added)'})
+        resp = c.post(self.url, {'title': 'Title 1 (created)', 'description': 'Description 1 (created)'})
         {{ cookiecutter.model_name|lower }} = {{ cookiecutter.model_name }}.objects.all().get()
         self.assertBasicRedirect(resp, {{ cookiecutter.model_name|lower }}.get_absolute_url())
-        self.assertEqual({{ cookiecutter.model_name|lower }}.title, 'Title 1 (added)')
-        self.assertEqual({{ cookiecutter.model_name|lower }}.description, 'Description 1 (added)')
+        self.assertEqual({{ cookiecutter.model_name|lower }}.title, 'Title 1 (created)')
+        self.assertEqual({{ cookiecutter.model_name|lower }}.description, 'Description 1 (created)')
 
-    def test_add_with_empty_form(self):
+    def test_create_with_empty_form(self):
         c.login(username='normal_user', password='secret')
-        url = reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_add')
-        resp = c.post(url)
+        resp = c.post(self.url)
         self.assertEqual(resp.status_code, 200)
         self.assertFormError(resp, 'form', 'title', 'This field is required.')
         self.assertFormError(resp, 'form', 'description', 'This field is required.')
 
 
-class {{ cookiecutter.model_name }}DetailViews(BaseViews):
+class {{ cookiecutter.model_name }}DetailView(BaseViews):
 
     def setUp(self):
         self.{{ cookiecutter.model_name|lower }} = {{ cookiecutter.model_name }}Factory()
-        super({{ cookiecutter.model_name }}DetailViews, self).setUp()
+        self.url = self.{{cookiecutter.model_name | lower}}.get_absolute_url()
+        super({{ cookiecutter.model_name }}DetailView, self).setUp()
 
     def test_detail_login_required(self):
-        url = self.{{ cookiecutter.model_name|lower }}.get_absolute_url()
-        resp = c.get(url)
-        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, url))
+
+        resp = c.get(self.url)
+        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, self.url))
 
     def test_detail(self):
         c.login(username='normal_user', password='secret')
-        url = self.{{ cookiecutter.model_name|lower }}.get_absolute_url()
-        resp = c.get(url)
+        resp = c.get(self.url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context_data['object'].title, self.{{ cookiecutter.model_name|lower }}.title)
         self.assertEqual(resp.context_data['object'].description, self.{{ cookiecutter.model_name|lower }}.description)
 
 
-class {{ cookiecutter.model_name }}EditViews(BaseViews):
+class {{ cookiecutter.model_name }}UpdateView(BaseViews):
 
     def setUp(self):
         self.{{ cookiecutter.model_name|lower }} = {{ cookiecutter.model_name }}Factory()
-        super({{ cookiecutter.model_name }}EditViews, self).setUp()
+        self.url = reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_update', kwargs={'pk': self.{{ cookiecutter.model_name|lower }}.pk})
+        super({{ cookiecutter.model_name }}UpdateView, self).setUp()
 
-    def test_edit_login_required(self):
-        url = self.{{ cookiecutter.model_name|lower }}.get_absolute_url()
-        resp = c.get(url)
-        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, url))
+    def test_update_login_required(self):
+        resp = c.get(self.url)
+        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, self.url))
 
-    def test_edit(self):
+    def test_update(self):
         c.login(username='normal_user', password='secret')
-        url = reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_edit', kwargs={'pk': self.{{ cookiecutter.model_name|lower }}.pk})
-        resp = c.get(url)
+        resp = c.get(self.url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context_data['object'].title, self.{{ cookiecutter.model_name|lower }}.title)
         self.assertEqual(resp.context_data['object'].description, self.{{ cookiecutter.model_name|lower }}.description)
 
-        resp = c.post(url, {'title': 'Title (edited)', 'description': 'Description (edited)'})
+        resp = c.post(self.url, {'title': 'Title (edited)', 'description': 'Description (edited)'})
         {{ cookiecutter.model_name|lower }} = {{ cookiecutter.model_name }}.objects.get(pk=self.{{ cookiecutter.model_name|lower }}.pk)
         self.assertBasicRedirect(resp, {{ cookiecutter.model_name|lower }}.get_absolute_url())
         self.assertEqual({{ cookiecutter.model_name|lower }}.title, 'Title (edited)')
         self.assertEqual({{ cookiecutter.model_name|lower }}.description, 'Description (edited)')
 
-    def test_edit_with_empty_form(self):
+    def test_update_with_empty_form(self):
         c.login(username='normal_user', password='secret')
-        url = reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_edit', kwargs={'pk': self.{{ cookiecutter.model_name|lower }}.pk})
-        resp = c.post(url)
+        resp = c.post(self.url)
         self.assertEqual(resp.status_code, 200)
         self.assertFormError(resp, 'form', 'title', 'This field is required.')
         self.assertFormError(resp, 'form', 'description', 'This field is required.')
 
 
-class DeleteViews(BaseViews):
+class {{ cookiecutter.model_name }}DeleteView(BaseViews):
 
     def setUp(self):
         self.{{ cookiecutter.model_name|lower }} = {{ cookiecutter.model_name }}Factory()
-        super(DeleteViews, self).setUp()
+        self.url = reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_delete', kwargs={'pk': self.{{ cookiecutter.model_name|lower }}.pk})
+        super({{ cookiecutter.model_name }}DeleteView, self).setUp()
 
     def test_delete_login_required(self):
-        url = reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_delete', kwargs={'pk': self.{{ cookiecutter.model_name|lower }}.pk})
-        resp = c.get(url)
-        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, url))
+        resp = c.get(self.url)
+        self.assertBasicRedirect(resp, '{}?next={}'.format(settings.LOGIN_URL, self.url))
 
     def test_delete(self):
         c.login(username='normal_user', password='secret')
-        url = reverse('{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_delete', kwargs={'pk': self.{{ cookiecutter.model_name|lower }}.pk})
-        resp = c.get(url)
+        resp = c.get(self.url)
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(resp.context_data['object'].title, self.{{ cookiecutter.model_name|lower }}.title)
         self.assertEqual(resp.context_data['object'].description, self.{{ cookiecutter.model_name|lower }}.description)
 
-        c.post(url, {})
+        c.post(self.url, {})
         {{ cookiecutter.app_name }} = {{ cookiecutter.model_name }}.objects.all()
         self.assertEqual(len({{ cookiecutter.app_name }}), 0)

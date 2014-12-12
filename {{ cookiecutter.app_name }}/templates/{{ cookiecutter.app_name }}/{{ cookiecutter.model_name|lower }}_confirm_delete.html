@@ -3,10 +3,12 @@
 {% load bootstrap %}
 
 {% block breadcrumb %}
-<ol class="breadcrumb main">
-    <li><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}{% raw %}_index' %}">{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</a></li>
-    <li class="active">{% block title %}Delete "{{ object.title }}"{% endblock %}</li>
-</ol>
+<div class="container">
+    <ol class="breadcrumb main">
+        <li><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}{% raw %}_list' %}">{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</a></li>
+        <li class="active">{% block title %}Delete "{{ object.title }}"{% endblock %}</li>
+    </ol>
+</div>
 {% endblock breadcrumb %}
 
 {% block content %}
@@ -17,6 +19,6 @@
     <form action="." method="post">{% csrf_token %}
     <p>Are you sure you want to delete the {% endraw %}{{ cookiecutter.model_name|lower }}{% raw %}, "{{ object.title }}"?</p>
     <button type="submit" class="btn btn-danger">Yes</button>
-    <a class="btn btn-default" href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_edit{% raw %}' object.pk %}">No</a>
+    <a class="btn btn-default" href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_update{% raw %}' object.pk %}">No</a>
     </form>
 {% endblock %}{% endraw %}

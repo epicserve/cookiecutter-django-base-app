@@ -3,15 +3,17 @@
 {% load bootstrap %}
 
 {% block breadcrumb %}
-<ol class="breadcrumb main">
-    <li><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_index{% raw %}' %}">{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</a></li>
-    <li class="active">{% block title %}{{ object.title }}{% endblock %}</li>
-</ol>
+<div class="container">
+    <ol class="breadcrumb main">
+        <li><a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_list{% raw %}' %}">{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</a></li>
+        <li class="active">{% block title %}{{ object.title }}{% endblock %}</li>
+    </ol>
+</div>
 {% endblock breadcrumb %}
 
 {% block content %}
     <div class="page-header">
-        <div class="pull-right"><a class="btn btn-primary" href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_edit{% raw %}' object.pk %}"><span class="glyphicon glyphicon-edit"></span> Edit</a></div>
+        <div class="pull-right"><a class="btn btn-primary" href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_update{% raw %}' object.pk %}"><span class="glyphicon glyphicon-edit"></span> Edit</a></div>
         <h2>{{ object.title }}</h2>
     </div>
 
