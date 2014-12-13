@@ -22,7 +22,7 @@ Quickstart
 
 .. code-block:: console
 
-    cookiecutter git@github.com:epicserve/cookiecutter-django-base-app.git
+    cookiecutter https://github.com/epicserve/cookiecutter-django-base-app.git
 
 
 3. You'll need to add ``bootstrapform``, to your INSTALLED_APPS, along with your new app:
@@ -41,12 +41,17 @@ Quickstart
 
     url(r'^{{ cookiecutter.app_name }}/', include('{{ cookiecutter.app_name }}.urls', namespace='{{ cookiecutter.app_name }}')),
 
-
-5. Run your newly created tests:
+5. Run syncdb:
 
 .. code-block:: console
 
-    python manage.py test new-app-name
+   python manage.py syncdb
+
+6. Run your newly created tests:
+
+.. code-block:: console
+
+    python manage.py test {{ cookiecutter.app_name }}
 
 
 Feel free to fork and make it your own, or send anything back up which you think may be generally useful.
