@@ -13,7 +13,12 @@
 
 {% block content %}
     <div class="page-header">
-        <div class="pull-right"><a class="btn btn-primary" href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_update{% raw %}' object.pk %}"><span class="glyphicon glyphicon-edit"></span> Edit</a></div>
+        <div class="pull-right">
+            <a class="btn btn-primary" href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_update{% raw %}' object.pk %}"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+            {% if object.pk %}
+            <a href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_delete{% raw %}' object.pk %}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+            {% endif %}
+        </div>
         <h2>{{ object.title }}</h2>
     </div>
 

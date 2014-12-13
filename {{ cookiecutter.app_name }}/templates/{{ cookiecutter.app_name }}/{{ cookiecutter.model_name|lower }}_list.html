@@ -3,7 +3,7 @@
 {% block breadcrumb %}
 <div class="container">
     <ol class="breadcrumb main">
-        <li class="active">{% block title %}{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}{% endblock %}</li>
+        <li class="active">{% block title %}{{ page_title }}{% endblock %}</li>
     </ol>
 </div>
 {% endblock breadcrumb %}
@@ -11,7 +11,7 @@
 {% block content %}
     <div class="page-header">
         <div class="pull-right"><a class="btn btn-primary" href="{% url '{% endraw %}{{ cookiecutter.app_name }}:{{ cookiecutter.model_name|lower }}_create{% raw %}' %}"><span class="glyphicon glyphicon-plus"></span> Add</a></div>
-        <h2>{% endraw %}{{ cookiecutter.app_name|title }}{% raw %}</h2>
+        <h2>{{ page_title }}</h2>
     </div>
 
 
